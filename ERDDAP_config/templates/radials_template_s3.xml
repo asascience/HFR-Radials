@@ -1,0 +1,430 @@
+<dataset type="EDDTableFromAsciiFiles" datasetID="#INSTITUTION#_#STATION#" active="true">
+    <reloadEveryNMinutes>10080</reloadEveryNMinutes>
+    <updateEveryNMillis>-1</updateEveryNMillis>
+    <fileDir>https://rps-nccf-hfrnet-processed-prod.s3.us-east-1.amazonaws.com/radials/#STATION#</fileDir>
+    <fileNameRegex>.*.csv</fileNameRegex>
+    <recursive>true</recursive>
+    <pathRegex>.*</pathRegex>
+    <metadataFrom>last</metadataFrom>
+    <standardizeWhat>0</standardizeWhat>
+    <charset>ISO-8859-1</charset>
+    <columnSeparator> </columnSeparator>
+    <columnNamesRow>1</columnNamesRow>
+    <firstDataRow>2</firstDataRow>
+    <preExtractRegex></preExtractRegex>
+    <postExtractRegex></postExtractRegex>
+    <extractRegex></extractRegex>
+    <columnNameForExtract></columnNameForExtract>
+    <sortedColumnSourceName></sortedColumnSourceName>
+    <sortFilesBySourceNames></sortFilesBySourceNames>
+    <fileTableInMemory>false</fileTableInMemory>
+    <accessibleViaFiles>false</accessibleViaFiles>
+    <!-- sourceAttributes>
+    </sourceAttributes -->
+    <!-- Please specify the actual cdm_data_type (TimeSeries?) and related info below, for example...
+        <att name="cdm_timeseries_variables">station_id, longitude, latitude</att>
+        <att name="subsetVariables">station_id, longitude, latitude</att>
+    -->
+    <addAttributes>
+        <!--att name="cdm_timeseries_variables">station, longitude, latitude</att-->
+        <att name="cdm_data_type">RadialSweep</att>
+	<!--att name="cdm_data_type">Grid</att -->
+        <att name="Conventions">CF-1.12, ACDD-1.3, IOOS-1.2</att>
+        <att name="infoUrl">https://hfradar.ioos.us/hfrnet/documents/HFRNet_Radial_NetCDF.pdf</att>
+        <att name="id">#INSTITUTION#_#STATION#</att>
+        <att name="institution">#INSTITUTION#</att>
+        <att name="featureType">TimeSeries</att>
+        <att name="instrument">OCEAN SURFACE CURRENT RADAR</att>
+        <att name="instrument_vocabulary">https://gcmd.earthdata.nasa.gov/KeywordViewer/scheme/instruments?gtm_scheme=instruments</att>
+        <att name="keywords">bear, currents, data, ersc, ertc, espc, etmp, head, HFR, HF-radar, high frequency radar, identifier, latitude, longitude, maxv, minv, radials, rnge, sprc, time, time2, velo, velu, velv, vflg, xdst, ydst</att>
+        <att name="license">The data may be used and redistributed for free but are not intended for legal use, since they may contain inaccuracies.  Neither the data Contributor, IOOS, NOAA, nor the United States Government, nor any of their employees or contractors, makes any warranty, express or implied, including warranties of merchantability and fitness for a particular purpose, or assumes any legal liability for the accuracy, completeness, or usefulness, of this information.</att>
+        <att name="sourceUrl">(local files)</att>
+        <att name="standard_name_vocabulary">CF Standard Name Table v92</att>
+        <att name="summary">High-frequency radar measurements of water velocity are radial in direction relative to the radar location and representative of the upper 0.3-2.5 meters of the water.</att>
+        <att name="title">Radials for #STATION#</att>
+	<att name="subsetVariables">flag</att>
+        <att name="publisher_email">data.ioos@noaa.gov</att>
+        <att name="publisher_type">institution</att>
+        <att name="publisher_institution">NOAA IOOS Surface Currents Program</att>
+        <att name="publisher_name">NOAA IOOS Surface Currents Program</att>
+        <att name="publisher_url">https://ioos.noaa.gov/project/hf-radar/</att>
+        <att name="publisher_country">United States of America</att>
+        <att name="creator_type">#CREATOR_TYPE#</att>
+        <att name="creator_sector">#CREATOR_SECTOR#</att>
+        <att name="creator_country">#CREATOR_COUNTRY#</att>
+        <att name="creator_institution">#CREATOR_INST#</att>
+        <att name="creator_name">#CREATOR_NAME#"</att>
+        <att name="creator_email">#CREATOR_EMAIL#</att>
+        <att name="creator_url">#CREATOR_URL#</att>
+        <att name="naming_authority">gov.noaa.nos.ioos</att>
+        <att name="platform">surface_current_radar</att>
+        <att name="platform_name">#PLATFORM_NAME#</att>
+        <att name="platform_vocabulary">https://mmisw.org/ont/ioos/platform</att>
+    </addAttributes>
+
+     <dataVariable>
+        <sourceName>***fileName,.*(\d{4}_\d{2}_\d{2}_\d{4}).*\.csv,1</sourceName>
+        <destinationName>time</destinationName>
+        <dataType>String</dataType>
+        <!-- sourceAttributes>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="units">yyyy_MM_dd_HHmm</att>
+            <att name="ioos_category">Time</att>
+            <att name="coverage_content_type">coordinate</att>
+            <att name="long_name">Time</att>
+        </addAttributes>
+    </dataVariable>
+    
+
+        <dataVariable>
+        <sourceName>***fileName,RDL([inm]).*\.csv,1</sourceName>
+        <destinationName>flag</destinationName>
+        <dataType>String</dataType>
+ 
+        <addAttributes>
+          <att name="long_name">flag indicating type of processing used</att>
+	  <att name="ioos_category">Unknown</att>
+          <att name="coverage_content_type">qualityInformation</att>
+        </addAttributes>
+      </dataVariable>
+      
+         <dataVariable>
+        <sourceName>***fileName,RDL._.*_(.*)_\d{4}_\d{2}_\d{2}_\d{4}.*.csv,1</sourceName>
+        <destinationName>station</destinationName>
+        <dataType>String</dataType>
+ 
+        <addAttributes>
+           <!--att name="cf_role">timeseries_id</att-->
+           <att name="coverage_content_type">referenceInformation</att>
+           <att name="long_name">station</att>
+	  <att name="ioos_category">Identifier</att>
+        </addAttributes>
+	 </dataVariable>
+
+
+        <dataVariable>
+        <sourceName>***fileName,RDL._.*_\d{4}_\d{2}_\d{2}_\d{4}_.*_(.*).csv,1</sourceName>
+        <destinationName>antenna_lat</destinationName>
+        <dataType>double</dataType>
+
+        <addAttributes>
+          <att name="long_name">latitude of origin of radial coordinate system</att>
+          <att name="ioos_category">Location</att>
+          <att name="standard_name">latitude</att>
+          <att name="units">degrees_north</att>
+          <att name="coverage_content_type">coordinate</att>
+        </addAttributes>
+         </dataVariable>
+
+        <dataVariable>
+        <sourceName>***fileName,RDL._.*_\d{4}_\d{2}_\d{2}_\d{4}_(.*)_.*.csv,1</sourceName>
+        <destinationName>antenna_lon</destinationName>
+        <dataType>double</dataType>
+ 
+        <addAttributes>
+           <att name="units">degrees_east</att>
+           <att name="long_name">longitude of origin of radial coordinate system</att>
+	   <att name="standard_name">longitude</att>
+           <att name="ioos_category">Location</att>
+           <att name="coverage_content_type">coordinate</att>
+        </addAttributes>
+	 </dataVariable>
+
+	 
+	 <dataVariable>
+        <sourceName>***fileName,RDL._(.*)_.*_\d{4}_\d{2}_\d{2}_\d{4}.*.csv,1</sourceName>
+        <destinationName>institution</destinationName>
+        <dataType>String</dataType>
+ 
+        <addAttributes>
+          <att name="coverage_content_type">referenceInformation</att>
+          <att name="long_name">institution</att>
+	  <att name="ioos_category">Unknown</att>
+        </addAttributes>
+      </dataVariable>
+   <dataVariable>
+        <sourceName>LOND</sourceName>
+        <destinationName>longitude</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="colorBarMaximum" type="double">180.0</att>
+            <att name="colorBarMinimum" type="double">-180.0</att>
+            <att name="ioos_category">Location</att>
+            <att name="long_name">Longitude</att>
+            <att name="source_name">LOND</att>
+            <att name="standard_name">longitude</att>
+            <att name="coverage_content_type">coordinate</att>
+            <att name="units">degrees_east</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>LATD</sourceName>
+        <destinationName>latitude</destinationName>
+        <dataType>double</dataType>
+        <!-- sourceAttributes>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="colorBarMaximum" type="double">90.0</att>
+            <att name="colorBarMinimum" type="double">-90.0</att>
+            <att name="ioos_category">Location</att>
+            <att name="long_name">Latitude</att>
+            <att name="source_name">LATD</att>
+            <att name="standard_name">latitude</att>
+            <att name="units">degrees_north</att>
+            <att name="coverage_content_type">coordinate</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>VELU</sourceName>
+        <destinationName>VELU</destinationName>
+        <dataType>float</dataType>
+        <!-- sourceAttributes>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="ioos_category">Currents</att>
+            <att name="long_name">radial_eastward_sea_water_velocity_toward_instrument</att>
+            <att name="coverage_content_type">physicalMeasurement</att>
+            <att name="units">cm/s</att>
+            <att name="platform">station</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>VELV</sourceName>
+        <destinationName>VELV</destinationName>
+        <dataType>float</dataType>
+        <!-- sourceAttributes>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="coverage_content_type">physicalMeasurement</att>
+            
+            <att name="units">cm/s</att>
+            <att name="ioos_category">Currents</att>
+            <att name="long_name">radial_northward_sea_water_velocity_toward_instrument</att>
+            <att name="platform">station</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>VFLG</sourceName>
+        <destinationName>VFLG</destinationName>
+        <dataType>short</dataType>
+        <!-- sourceAttributes>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="coverage_content_type">qualityInformation</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="long_name">vector_flag_masks</att>
+            <att name="flag_masks" type="shortList">1 2 4 16 32 128 256 512 2048 4096</att>
+            <att name="flag_meanings">disabled_grid_point_not_ouputted_in_LLUV_files grid_point_near_coastline grid_point_contains_a_point_measurement current_vector_result_of_interpolating_across_baseline_area vector_result_exceeded_the_maximum_current_limit vector_is_out_of_bounds total_vector_does_not_have_enough_angular_resolution_from_the_contributing_radials vector_is_marked_as_hidden_and_should_not_be_normally_displayed vector_created_by_interpolation vector_is_of_dubious_quality_and_should_not_normally_be_used_or_displayed </att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>ESPC</sourceName>
+        <destinationName>ESPC</destinationName>
+        <dataType>float</dataType>
+        <!-- sourceAttributes>
+        </sourceAttributes -->
+        <addAttributes>
+           <att name="coverage_content_type">qualityInformation</att>
+            <att name="_FillValue" type="float">999.0</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="units">cm/s</att>
+            <att name="long_name">spatial standard deviation of radial current velocity over the scatter patch</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>ETMP</sourceName>
+        <destinationName>ETMP</destinationName>
+        <dataType>float</dataType>
+        <!-- sourceAttributes>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="units">cm/s</att>
+            <att name="_FillValue" type="float">999.0</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="units">cm/s</att>
+            <att name="coverage_content_type">qualityInformation</att>
+            <att name="long_name">temporal standard deviation of radial current velocity over coverage period</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>EDTP</sourceName>
+        <destinationName>EDTP</destinationName>
+        <dataType>float</dataType>
+        <!-- sourceAttributes>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_FillValue" type="float">999.0</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="coverage_content_type">qualityInformation</att>
+            <att name="long_name">distance to pattern (0 being it matches antenna pattern perfectly)</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>EASN</sourceName>
+        <destinationName>EASN</destinationName>
+        <dataType>float</dataType>
+        <!-- sourceAttributes>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="_FillValue" type="float">999.0</att>
+            <att name="ioos_category">Unknown</att>
+            <att name="coverage_content_type">qualityInformation</att>
+            <att name="long_name">signal_to_noise_ratio</att>
+            <att name="units">dB</att>
+        </addAttributes>
+    </dataVariable>
+
+
+
+    <dataVariable>
+        <sourceName>MAXV</sourceName>
+        <destinationName>MAXV</destinationName>
+        <dataType>float</dataType>
+        <!-- sourceAttributes>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="ioos_category">Currents</att>
+            <att name="long_name">radial_sea_water_maximum_velocity_toward_instrument</att>
+             <att name="units">cm/s</att>
+            <att name="platform">station</att>
+            <att name="coverage_content_type">physicalMeasurement</att>
+
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>MINV</sourceName>
+        <destinationName>MINV</destinationName>
+        <dataType>float</dataType>
+        <!-- sourceAttributes>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="ioos_category">Currents</att>
+            <att name="units">cm/s</att>
+            <att name="coverage_content_type">physicalMeasurement</att>
+            <att name="long_name">radial_sea_water_minimum_velocity_toward_instrument</att>
+            <att name="platform">station</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>ERSC</sourceName>
+        <destinationName>ERSC</destinationName>
+        <dataType>byte</dataType>
+        <!-- sourceAttributes>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="ioos_category">Unknown</att>
+            <att name="coverage_content_type">qualityInformation</att> 
+            <att name="long_name">number of radial velocities at the same range and bearing that went into the spatial value for radial velocity</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>ERTC</sourceName>
+        <destinationName>ERTC</destinationName>
+        <dataType>byte</dataType>
+        <!-- sourceAttributes>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="ioos_category">Unknown</att>
+            <att name="coverage_content_type">qualityInformation</att>
+            
+            <att name="long_name">number of radial velocities at the same range and bearing that went into the temporal value for radial velocity</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>XDST</sourceName>
+        <destinationName>XDST</destinationName>
+        <dataType>float</dataType>
+        <!-- sourceAttributes>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="units">km</att>
+            <att name="ioos_category">Location</att>
+            <att name="coverage_content_type">coordinate</att>
+            <att name="long_name">eastward_distance_from_instrument</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>YDST</sourceName>
+        <destinationName>YDST</destinationName>
+        <dataType>float</dataType>
+        <!-- sourceAttributes>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="units">km</att>
+            <att name="ioos_category">Location</att>
+            <att name="coverage_content_type">coordinate</att>
+            <att name="long_name">northward_distance_from_instrument</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>RNGE</sourceName>
+        <destinationName>RNGE</destinationName>
+        <dataType>float</dataType>
+        <!-- sourceAttributes>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="units">km</att>
+            <att name="coverage_content_type">coordinate</att>
+            <att name="ioos_category">Location</att>
+            <att name="long_name">distance_from_instrument</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>BEAR</sourceName>
+        <destinationName>BEAR</destinationName>
+        <dataType>float</dataType>
+        <!-- sourceAttributes>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="coverage_content_type">coordinate</att>
+            <att name="ioos_category">Location</att>
+            <att name="units">degrees_true</att>
+            <att name="long_name">bearing from the origin to the radial current vector</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>VELO</sourceName>
+        <destinationName>VELO</destinationName>
+        <dataType>float</dataType>
+        <!-- sourceAttributes>
+        </sourceAttributes -->
+        <addAttributes>
+	     <att name="standard_name">radial_sea_water_velocity_toward_instrument</att>
+            <att name="units">cm/s</att>
+            <att name="coverage_content_type">physicalMeasurement</att>
+            <att name="ioos_category">Currents</att>
+            <att name="platform">station</att>
+            <att name="long_name">speed</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>HEAD</sourceName>
+        <destinationName>HEAD</destinationName>
+        <dataType>float</dataType>
+        <!-- sourceAttributes>
+        </sourceAttributes -->
+        <addAttributes>
+           <att name="standard_name">direction_of_radial_vector_toward_instrument</att>
+            <att name="units">degrees_true</att>
+            <att name="coverage_content_type">physicalMeasurement</att>
+            <att name="platform">station</att>
+            <att name="ioos_category">Currents</att>
+            <att name="long_name">direction</att>
+        </addAttributes>
+    </dataVariable>
+    <dataVariable>
+        <sourceName>SPRC</sourceName>
+        <destinationName>SPRC</destinationName>
+        <dataType>byte</dataType>
+        <!-- sourceAttributes>
+        </sourceAttributes -->
+        <addAttributes>
+            <att name="ioos_category">Unknown</att>
+            <att name="coverage_content_type">coordinate</att>
+            <att name="long_name">cross spectra range cell the radials came from</att>
+        </addAttributes>
+    </dataVariable>
+</dataset>
