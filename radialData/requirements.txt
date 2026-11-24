@@ -1,0 +1,12 @@
+s3fs
+awslambdaric
+requests
+boto3
+numpy
+netCDF4
+xarray
+dask
+toolz
+geopy
+paramiko
+pandas

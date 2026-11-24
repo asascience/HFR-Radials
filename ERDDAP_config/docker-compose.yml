@@ -1,0 +1,16 @@
+version: '3.3'
+ 
+services:
+  erddap_prod:
+      image: axiom/docker-erddap:v2.29.0
+      container_name: erddap_prod
+      restart: always
+      volumes:
+          - /var/www/erddap/datasets_prod.xml:/usr/local/tomcat/content/erddap/datasets.xml
+          - /mnt/ERDDAP_cache/erddap_data_prod:/erddapData
+      ports:
+          - "8090:8080"
+          - "7443:8443"
+      env_file:
+          - /var/www/erddap/compose_prod.env
+
